@@ -36,5 +36,5 @@ class Post:
         """
     
     def __repr__(self):
-        return print(f'<post{self.id}|')
+        return f'<Post {self.id}|{self.title}'
     

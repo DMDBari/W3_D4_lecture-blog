@@ -24,6 +24,9 @@ def run_blog():
             elif to_do == '2':
                 # Call the log_user_in method on the blog
                 blog.log_user_in()
+            elif to_do == '3':
+                # Call the view_posts method on the blog
+                blog.view_posts()
             else:
                 print(f"Option {to_do} is coming soon!")
         else:
@@ -36,8 +39,11 @@ def run_blog():
             if to_do == '1':
                 # Call the log_user_out method on blog
                 blog.log_user_out()
-            if to_do == '2':
+            elif to_do == '2':
                 blog.create_new_post()
+            elif to_do == '3':
+                # Call the view_posts method on the blog
+                blog.view_posts()
             else:
                 print(f"Option {to_do} is coming soon!")
     # Once the user quits and the while loop breaks
