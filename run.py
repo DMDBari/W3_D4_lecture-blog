@@ -1,10 +1,22 @@
 from app import Blog
+from app.models import User, Post
 
 
 def run_blog():
     print('Welcome to the Kekambas Blog!')
     # Create an instance of the blog class
     blog = Blog()
+
+    # CREATE SOME INITIAL DATA
+    user1 = User('brians', 'abc123')
+    user2 = User('jumpman23', '6rings')
+    blog.users.append(user1)
+    blog.users.append(user2)
+    post1 = Post('Fri-yay!', 'It is Friday, hooray!', user1)
+    post2 = Post('Weekend', 'I am ready for the weekend', user2)
+    blog.posts.append(post1)
+    blog.posts.append(post2)
+
     # Start "running" our blog until user quits
     while True:
         if blog.current_user is None:
@@ -14,7 +26,7 @@ def run_blog():
             to_do = input('Which option would you like to do? ')
             # Make sure they give a valid option
             while to_do not in {'1', '2', '3', '4', '5'}:
-                to_do = input('Invalid option. Please enter 1, 2, 3, 4, 5: ')
+                to_do = input('Invalid option. Please enter 1, 2, 3, 4, or 5: ')
             # Different "routes" - different option to take
             if to_do == '5':
                 break
@@ -27,6 +39,8 @@ def run_blog():
             elif to_do == '3':
                 # Call the view_posts method on the blog
                 blog.view_posts()
+            elif to_do == '4':
+                blog.view_post()
             else:
                 print(f"Option {to_do} is coming soon!")
         else:
@@ -44,6 +58,13 @@ def run_blog():
             elif to_do == '3':
                 # Call the view_posts method on the blog
                 blog.view_posts()
+            elif to_do == '4':
+                blog.view_post()
+            elif to_do == '5':
+                # Call the edit_post method on the blog
+                blog.edit_post()
+            elif to_do == '6':
+                blog.delete_post()
             else:
                 print(f"Option {to_do} is coming soon!")
     # Once the user quits and the while loop breaks

@@ -6,6 +6,22 @@ class Blog:
         self.posts = []
         self.current_user = None
 
+    # Private method that will get a post by its ID or return None if no post with that ID
+    def __get_post_from_id(self):
+        # Adk the user for the ID of the post they would like to view
+        post_id = input('What is the ID of the post that you would like to view? ')
+        # Ensure that we can convert our post_id to an integer
+        while not post_id.isdigit():
+            post_id = input('Invalid ID. Must be an integer. Please enter ID again: ')
+        # Loop through all of the posts in the blog
+        for post in self.posts:
+            # If the post's ID matches the post_id argument
+            if post.id == int(post_id):
+                # Return that post instance
+                return post
+        # If we finish the loop, that means we did not find a post with that ID
+        print(f"Post with an ID of {post_id} does not exist") # 404 Not Found
+
 # Method to create a new user instance and add to the Blog's user list
     def create_new_user(self):
         # Get user info from input
@@ -72,3 +88,64 @@ class Blog:
         # If no posts
         else:
             print('There are currently no posts in this blog :( ')
+
+    # Method to view a single post by ID
+    def view_post(self):
+        # Get the post using the private method
+        post = self.__get_post_from_id()
+        # Check if the post exists
+        if post:
+            # If so,m print that post
+            print(post)
+            
+    # Method to edit a post by ID
+    def edit_post(self):
+        post = self.__get_post_from_id()
+        if post:
+            # Check to see that the logged in user is the author of the post
+            if post.author == self.current_user:
+                print(post)
+
+                # Ask for the new title of the post or have them skip to keep the current title
+                new_title = input("Enter a new title or type 'skip' to keep the current title: ")
+                if new_title.lower() != 'skip':
+                    # Set the title attribute on the post to the new title
+                    post.title = new_title
+                
+                # Ask for the new body of the post or have them skip to keep the current body
+                new_body = input("Enter a new body or type 'skip' to keep the current body: ")
+                if new_body.lower() != 'skip':
+                    # Set the title attribute on the post to the new title
+                    post.body = new_body
+                
+                print(f"{post.title} has been updated!")
+            # If the user is logged in but no the author
+            elif self.current_user is not None:
+                print("You do not have permission to edit this post.") # 403 Forbidden
+            # If the user is not logged in
+            else:
+                print("You must be logged in to perform this action.") # 401 Unauthorized
+
+
+    # Method to delete a post form the blog by ID
+    def delete_post(self):
+        post = self.__get_post_from_id()
+        if post:
+            # Check to see if the logged in user is the author of the post to delete
+            if post.author == self.current_user:
+                # Print post so they can see it
+                print(post)
+
+                # Ask for confirmatoin
+                you_sure = input("Are you sure you want to delete this post? This action cannot be undone. Enter 'yes' or 'y' to delete: ").lower()
+                if you_sure == 'yes' or you_sure == 'y':
+                    self.posts.remove(post)
+                    print(f"{post.title} has been removed from the blog")
+                else:
+                    print(f"Okay. We will not delete {post.title}")
+            # If the user is logged in but no the author
+            elif self.current_user is not None:
+                print("You do not have permission to edit this post.") # 403 Forbidden
+            # If the user is not logged in
+            else:
+                print("You must be logged in to perform this action.") # 401 Unauthorized
