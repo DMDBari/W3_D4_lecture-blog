@@ -1,6 +1,6 @@
 import unittest
 
-from whiteboard import solution
+from whiteboard.whiteboard import solution
 
 class MatchTestCase(unittest.TestCase):
     def test_example_one(self):
